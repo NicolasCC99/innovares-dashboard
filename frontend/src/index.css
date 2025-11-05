@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. Definimos nuestros colores por defecto (Modo Oscuro).
+  Usamos :root para que estén disponibles en toda la aplicación.
+*/
+:root {
+  --color-texto-principal: #F9FAFB; /* gray-50 */
+  --color-texto-secundario: #9CA3AF; /* gray-400 */
+  --color-fondo-pagina: #111827; /* gray-900 */
+  --color-fondo-tarjeta: #1F2937; /* gray-800 */
+  --color-borde: #374151; /* gray-700 */
+  --color-grafico-base: #374151; /* gray-700 (para fondo de donas/barras) */
+}
+
+/* 2. Definimos el Modo de Exportación (Fondo Blanco).
+  Cuando CUALQUIER elemento tenga la clase ".export-blanco",
+  las variables dentro de él cambiarán a estos valores.
+*/
+.export-blanco {
+  --color-texto-principal: #111827; /* gray-900 (Negro/Gris oscuro) */
+  --color-texto-secundario: #4B5563; /* gray-600 (Gris) */
+  --color-fondo-pagina: #FFFFFF; /* Blanco */
+  --color-fondo-tarjeta: #FFFFFF; /* Blanco */
+  --color-borde: #E5E7EB; /* gray-200 (Borde claro) */
+  --color-grafico-base: #E5E7EB; /* gray-200 (Fondo claro) */
+}
