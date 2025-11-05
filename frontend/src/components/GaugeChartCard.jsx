@@ -9,13 +9,11 @@ const COLORS = {
 };
 
 const STATUS_CRITERIA = {
-  // Para métricas donde un valor alto es mejor (ej: Avance, Aprobación)
   positive: {
     good: { threshold: 70, color: COLORS.green, label: 'Satisfactorio' },
     medium: { threshold: 50, color: COLORS.yellow, label: 'En Proceso' },
     low: { color: COLORS.red, label: 'Requiere Atención' }
   },
-  // Para métricas donde un valor bajo es mejor (ej: Sin Avance)
   negative: {
     good: { threshold: 15, color: COLORS.green, label: 'Satisfactorio' },
     medium: { threshold: 30, color: COLORS.yellow, label: 'En Proceso' },
@@ -23,25 +21,21 @@ const STATUS_CRITERIA = {
   }
 };
 
-// Función para determinar el estado del indicador
 const getGaugeStatus = (value, title) => {
   const numericValue = parseFloat(value) || 0;
   const isNegativeMetric = title.includes('Sin Avance');
   const criteria = isNegativeMetric ? STATUS_CRITERIA.negative : STATUS_CRITERIA.positive;
   
   if (isNegativeMetric) {
-    // Para métricas donde un valor bajo es mejor
     if (numericValue <= criteria.good.threshold) return criteria.good;
     if (numericValue <= criteria.medium.threshold) return criteria.medium;
     return criteria.low;
   } else {
-    // Para métricas donde un valor alto es mejor
     if (numericValue >= criteria.good.threshold) return criteria.good;
     if (numericValue >= criteria.medium.threshold) return criteria.medium;
     return criteria.low;
   }
 };
-
 
 const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref) => {
   const numericValue = Math.max(0, Math.min(100, parseFloat(value) || 0));
@@ -52,7 +46,6 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
     { name: 'base', value: 100 - numericValue },
   ];
 
-  // Determinamos el mensaje explicativo según el tipo de métrica
   const getMetricExplanation = () => {
     const isNegativeMetric = title.includes('Sin Avance');
     if (isNegativeMetric) {
@@ -74,7 +67,7 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
   return (
     <div ref={ref} className="p-4 flex flex-col items-center justify-between min-h-[220px]">
       <div className="flex flex-col items-center gap-2 mb-2">
-        <h3 className="text-sm font-medium text-white text-center">{title}</h3>
+        <h3 className="text-sm font-medium text-[var(--color-titulo-grafico)] text-center">{title}</h3>
         <span className="text-xs font-medium" style={{ color: status.color }}>
           {status.label}
         </span>
@@ -101,7 +94,7 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
           </PieChart>
         </ResponsiveContainer>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <span className="text-white text-2xl font-bold">
+          <span className="text-2xl font-bold text-[var(--color-porcentaje-grafico)]">
             {`${numericValue.toFixed(0)}%`}
           </span>
         </div>
@@ -109,29 +102,28 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
 
       <div className="mt-2 flex flex-col items-center gap-1">
         {numerator !== undefined && denominator !== undefined && !title.includes('Sin Avance') && (
-          <span className="text-xs text-gray-300">
+          <span className="text-xs text-[var(--color-texto-grafico-secundario)]">
             {numerator} de {denominator} alumnos
           </span>
         )}
         
-        {/* Tooltip con la explicación de los rangos */}
         <div className="group relative">
-          <button className="text-xs text-gray-400 hover:text-white">
+          <button className="text-xs text-gray-400 hover:text-[var(--color-titulo-grafico)]">
             Ver criterios de evaluación
           </button>
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 rounded-lg shadow-lg text-xs">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.green }}></span>
-                <span className="text-gray-300">{explanation.good}</span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">{explanation.good}</span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.yellow }}></span>
-                <span className="text-gray-300">{explanation.medium}</span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">{explanation.medium}</span>
               </div>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.red }}></span>
-                <span className="text-gray-300">{explanation.low}</span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">{explanation.low}</span>
               </div>
             </div>
           </div>

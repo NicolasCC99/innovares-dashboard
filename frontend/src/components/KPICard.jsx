@@ -1,7 +1,5 @@
 import { forwardRef } from 'react';
 
-// --- (Función renderIcon() completa aquí) ---
-// Define qué ícono SVG mostrar basado en el título
 const renderIcon = (title, value, totalInscritos) => {
   const status = getValueStatus(title, value, totalInscritos);
   
@@ -40,12 +38,10 @@ const renderIcon = (title, value, totalInscritos) => {
   return null;
 };
 
-// --- Lógica de estado y color basada en porcentajes del total ---
 const getValueStatus = (title, value, totalInscritos) => {
   const numValue = parseFloat(value) || 0;
   const total = parseInt(totalInscritos) || 0;
 
-  // Si es el total de inscritos, retornamos un estado neutral
   if (title.includes('Total')) {
     return {
       color: 'text-blue-500',
@@ -54,17 +50,14 @@ const getValueStatus = (title, value, totalInscritos) => {
     };
   }
 
-  // Calculamos el porcentaje según el tipo de métrica
   let percentage;
   if (title.includes('%') || title.toLowerCase().includes('tasa') || title.toLowerCase().includes('porcentaje')) {
-    percentage = numValue; // Ya es un porcentaje
+    percentage = numValue;
   } else {
     percentage = total > 0 ? (numValue / total) * 100 : 0;
   }
 
-  // Definimos los umbrales según el tipo de métrica
   if (title.includes('sin Avance') || title.includes('Brecha')) {
-    // Métricas donde un valor bajo es mejor
     if (percentage <= 10) {
       return {
         color: 'text-green-500',
@@ -85,7 +78,6 @@ const getValueStatus = (title, value, totalInscritos) => {
       label: 'Necesita Atención'
     };
   } else {
-    // Métricas donde un valor alto es mejor
     if (percentage >= 80) {
       return {
         color: 'text-green-500',
@@ -108,7 +100,6 @@ const getValueStatus = (title, value, totalInscritos) => {
   }
 };
 
-// --- KPICard con nueva lógica de estado ---
 const KPICard = forwardRef(({ title, value, unit, totalInscritos }, ref) => {
   const status = getValueStatus(title, value, totalInscritos);
   
@@ -116,7 +107,7 @@ const KPICard = forwardRef(({ title, value, unit, totalInscritos }, ref) => {
     <div ref={ref} className="p-4">
       <div className="flex justify-between items-center mb-2">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-medium text-white">{title}</h3>
+          <h3 className="text-sm font-medium text-[var(--color-titulo-grafico)]">{title}</h3>
           <span className={`text-xs font-medium ${status.color}`}>
             {status.label}
           </span>
@@ -125,7 +116,7 @@ const KPICard = forwardRef(({ title, value, unit, totalInscritos }, ref) => {
       </div>
       <p className={`text-3xl font-bold mt-1 ${status.color} transition-colors duration-200`}>
         {value}
-        <span className="text-xl font-semibold text-gray-300 ml-1">{unit}</span>
+        <span className="text-xl font-semibold text-[var(--color-texto-grafico-secundario)] ml-1">{unit}</span>
       </p>
     </div>
   );

@@ -2,27 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 1. Definimos nuestros colores por defecto (Modo Oscuro).
-  Usamos :root para que estén disponibles en toda la aplicación.
-*/
+/* Variables por defecto (Modo Oscuro) */
 :root {
   --color-texto-principal: #F9FAFB; /* gray-50 */
   --color-texto-secundario: #9CA3AF; /* gray-400 */
   --color-fondo-pagina: #111827; /* gray-900 */
   --color-fondo-tarjeta: #1F2937; /* gray-800 */
   --color-borde: #374151; /* gray-700 */
-  --color-grafico-base: #374151; /* gray-700 (para fondo de donas/barras) */
+  --color-grafico-base: #374151; /* gray-700 */
+  
+  /* Variables específicas para gráficos */
+  --color-titulo-grafico: #FFFFFF;
+  --color-porcentaje-grafico: #FFFFFF;
+  --color-texto-grafico-secundario: #D1D5DB;
+  
+  /* Variables para alertas */
+  --color-alerta-critica-fondo: #991B1B; /* red-800 */
+  --color-alerta-alta-fondo: #B45309; /* amber-700 */
+  --color-alerta-media-fondo: #65A30D; /* lime-600 */
+  --color-alerta-info-fondo: #374151; /* gray-700 */
 }
 
-/* 2. Definimos el Modo de Exportación (Fondo Blanco).
-  Cuando CUALQUIER elemento tenga la clase ".export-blanco",
-  las variables dentro de él cambiarán a estos valores.
-*/
+/* Modo Exportación (Fondo Blanco) */
 .export-blanco {
-  --color-texto-principal: #111827; /* gray-900 (Negro/Gris oscuro) */
-  --color-texto-secundario: #4B5563; /* gray-600 (Gris) */
+  --color-texto-principal: #111827; /* Negro */
+  --color-texto-secundario: #4B5563; /* gray-600 */
   --color-fondo-pagina: #FFFFFF; /* Blanco */
   --color-fondo-tarjeta: #FFFFFF; /* Blanco */
-  --color-borde: #E5E7EB; /* gray-200 (Borde claro) */
-  --color-grafico-base: #E5E7EB; /* gray-200 (Fondo claro) */
+  --color-borde: #E5E7EB; /* gray-200 */
+  --color-grafico-base: #E5E7EB; /* gray-200 */
+  
+  /* Variables para gráficos en exportación */
+  --color-titulo-grafico: #111827; /* Negro */
+  --color-porcentaje-grafico: #111827; /* Negro */
+  --color-texto-grafico-secundario: #4B5563; /* gray-600 */
+  
+  /* Variables para alertas en exportación */
+  --color-alerta-critica-fondo: #FEE2E2; /* red-100 */
+  --color-alerta-alta-fondo: #FEF3C7; /* amber-100 */
+  --color-alerta-media-fondo: #ECFCCB; /* lime-100 */
+  --color-alerta-info-fondo: #F3F4F6; /* gray-100 */
 }
