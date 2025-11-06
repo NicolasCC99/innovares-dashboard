@@ -4,42 +4,51 @@
 
 /* Variables por defecto (Modo Oscuro) */
 :root {
-  --color-texto-principal: #F9FAFB; /* gray-50 */
-  --color-texto-secundario: #9CA3AF; /* gray-400 */
-  --color-fondo-pagina: #111827; /* gray-900 */
-  --color-fondo-tarjeta: #1F2937; /* gray-800 */
-  --color-borde: #374151; /* gray-700 */
-  --color-grafico-base: #374151; /* gray-700 */
-  
-  /* Variables específicas para gráficos */
+  --color-texto-principal: #F9FAFB;
+  --color-texto-secundario: #9CA3AF;
+  --color-fondo-pagina: #111827;
+  --color-fondo-tarjeta: #1F2937;
+  --color-borde: #374151;
+  --color-grafico-base: #374151;
   --color-titulo-grafico: #FFFFFF;
   --color-porcentaje-grafico: #FFFFFF;
   --color-texto-grafico-secundario: #D1D5DB;
-  
-  /* Variables para alertas */
-  --color-alerta-critica-fondo: #991B1B; /* red-800 */
-  --color-alerta-alta-fondo: #B45309; /* amber-700 */
-  --color-alerta-media-fondo: #65A30D; /* lime-600 */
-  --color-alerta-info-fondo: #374151; /* gray-700 */
+  --color-alerta-critica-fondo: #991B1B;
+  --color-alerta-alta-fondo: #B45309;
+  --color-alerta-media-fondo: #65A30D;
+  --color-alerta-info-fondo: #374151;
 }
 
 /* Modo Exportación (Fondo Blanco) */
 .export-blanco {
-  --color-texto-principal: #111827; /* Negro */
-  --color-texto-secundario: #4B5563; /* gray-600 */
-  --color-fondo-pagina: #FFFFFF; /* Blanco */
-  --color-fondo-tarjeta: #FFFFFF; /* Blanco */
-  --color-borde: #E5E7EB; /* gray-200 */
-  --color-grafico-base: #E5E7EB; /* gray-200 */
-  
-  /* Variables para gráficos en exportación */
-  --color-titulo-grafico: #111827; /* Negro */
-  --color-porcentaje-grafico: #111827; /* Negro */
-  --color-texto-grafico-secundario: #4B5563; /* gray-600 */
-  
-  /* Variables para alertas en exportación */
-  --color-alerta-critica-fondo: #FEE2E2; /* red-100 */
-  --color-alerta-alta-fondo: #FEF3C7; /* amber-100 */
-  --color-alerta-media-fondo: #ECFCCB; /* lime-100 */
-  --color-alerta-info-fondo: #F3F4F6; /* gray-100 */
+  --color-texto-principal: #111827;
+  --color-texto-secundario: #4B5563;
+  --color-fondo-pagina: #FFFFFF;
+  --color-fondo-tarjeta: #FFFFFF;
+  --color-borde: #E5E7EB;
+  --color-grafico-base: #E5E7EB;
+  --color-titulo-grafico: #111827;
+  --color-porcentaje-grafico: #111827;
+  --color-texto-grafico-secundario: #4B5563;
+  --color-alerta-critica-fondo: #FEE2E2;
+  --color-alerta-alta-fondo: #FEF3C7;
+  --color-alerta-media-fondo: #ECFCCB;
+  --color-alerta-info-fondo: #F3F4F6;
+}
+
+/* Utilidades personalizadas para exportación */
+.export-blanco\:block {
+  display: none;
+}
+
+.export-blanco .export-blanco\:block {
+  display: block;
+}
+
+.export-blanco\:hidden {
+  display: block;
+}
+
+.export-blanco .export-blanco\:hidden {
+  display: none;
 }

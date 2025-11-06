@@ -65,7 +65,7 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
   const explanation = getMetricExplanation();
 
   return (
-    <div ref={ref} className="p-4 flex flex-col items-center justify-between min-h-[220px]">
+    <div ref={ref} className="p-4 flex flex-col items-center justify-between min-h-[280px]">
       <div className="flex flex-col items-center gap-2 mb-2">
         <h3 className="text-sm font-medium text-[var(--color-titulo-grafico)] text-center">{title}</h3>
         <span className="text-xs font-medium" style={{ color: status.color }}>
@@ -107,11 +107,12 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
           </span>
         )}
         
-        <div className="group relative">
+        {/* CRITERIOS VISIBLES EN HOVER (INTERFAZ NORMAL) */}
+        <div className="group relative export-blanco:hidden">
           <button className="text-xs text-gray-400 hover:text-[var(--color-titulo-grafico)]">
             Ver criterios de evaluación
           </button>
-          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 rounded-lg shadow-lg text-xs">
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 p-2 bg-gray-800 rounded-lg shadow-lg text-xs z-10">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.green }}></span>
@@ -125,6 +126,36 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS.red }}></span>
                 <span className="text-[var(--color-texto-grafico-secundario)]">{explanation.low}</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CRITERIOS SIEMPRE VISIBLES (SOLO EN EXPORTACIÓN) */}
+        <div className="hidden export-blanco:block w-full mt-2">
+          <h4 className="text-xs font-semibold text-[var(--color-titulo-grafico)] text-center mb-1">
+            Criterios de Evaluación
+          </h4>
+          <div className="flex flex-col gap-1 text-xs">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">Satisfactorio:</span>
+              </div>
+              <span className="text-[var(--color-texto-grafico-secundario)] text-right">{explanation.good}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0"></span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">En Proceso:</span>
+              </div>
+              <span className="text-[var(--color-texto-grafico-secundario)] text-right">{explanation.medium}</span>
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></span>
+                <span className="text-[var(--color-texto-grafico-secundario)]">Requiere Atención:</span>
+              </div>
+              <span className="text-[var(--color-texto-grafico-secundario)] text-right">{explanation.low}</span>
             </div>
           </div>
         </div>
