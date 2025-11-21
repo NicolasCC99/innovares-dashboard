@@ -107,7 +107,7 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
           </span>
         )}
         
-        {/* CRITERIOS VISIBLES EN HOVER (INTERFAZ NORMAL) */}
+        {/* Mostrar criterios en tooltip al pasar el mouse */}
         <div className="group relative export-blanco:hidden">
           <button className="text-xs text-gray-400 hover:text-[var(--color-titulo-grafico)]">
             Ver criterios de evaluación
@@ -130,7 +130,7 @@ const GaugeChartCard = forwardRef(({ title, value, numerator, denominator }, ref
           </div>
         </div>
 
-        {/* CRITERIOS SIEMPRE VISIBLES (SOLO EN EXPORTACIÓN) */}
+        {/* Mostrar criterios visibles solo en exportacion */}
         <div className="hidden export-blanco:block w-full mt-2">
           <h4 className="text-xs font-semibold text-[var(--color-titulo-grafico)] text-center mb-1">
             Criterios de Evaluación

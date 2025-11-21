@@ -51,15 +51,15 @@ function FileUpload({ onDataProcessed }) {
     }
   };
 
-  // Usamos variables CSS para los colores del texto
+  // Usar variables CSS para los colores del texto
   const messageColorClass = message.startsWith('Error:') 
     ? 'text-red-400' 
     : message.startsWith('¡Éxito!') 
     ? 'text-green-400' 
-    : 'text-[var(--color-texto-secundario)]'; // Variable
+    : 'text-[var(--color-texto-secundario)]';
 
   return (
-    // bg-gray-800 fijo está bien, ya que es parte del "control"
+
     <div className="bg-gray-800 p-6 rounded-xl shadow-lg space-y-4">
       
       <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -84,7 +84,7 @@ function FileUpload({ onDataProcessed }) {
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-2 text-sm">
-          {/* Usamos variables CSS */}
+
           <label htmlFor="currentWeek" className="text-[var(--color-texto-secundario)]">Semana Actual:</label>
           <input
               id="currentWeek" type="number" value={currentWeek}

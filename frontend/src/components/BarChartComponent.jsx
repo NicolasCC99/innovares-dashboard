@@ -6,10 +6,10 @@ function BarChartComponent({ data }) {
   }
 
   const COLORS = {
-    bar: '#34d399',      // Verde sólido para las barras
-    grid: '#4b5563',     // Gris para la grilla
-    text: '#ffffff',     // Blanco para el texto
-    textSecondary: '#cbd5e1' // Gris claro para texto secundario
+    bar: '#34d399',
+    grid: '#4b5563',
+    text: '#ffffff',
+    textSecondary: '#cbd5e1'
   };
 
   return (

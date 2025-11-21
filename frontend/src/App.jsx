@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 
-// Asegúrate de que todos estos componentes existan en la carpeta './components/'
+// --- IMPORTACIÓN DE COMPONENTES ---
 import KPICard from './components/KPICard';
 import GaugeChartCard from './components/GaugeChartCard';
 import BarChartComponent from './components/BarChartComponent';
@@ -10,12 +10,11 @@ import ProgressBarComponent from './components/ProgressBarComponent';
 import AlertsTable from './components/AlertsTable';
 import FileUpload from './components/FileUpload';
 
-// Esta es la función completa 'App' que faltaba
 function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // --- 1. Definición de Refs (faltaban) ---
+  // --- REFERENCIAS A ELEMENTOS PARA EXPORTACIÓN ---
   const refGaugeAvance = useRef(null);
   const refGaugeAprobacion = useRef(null);
   const refGaugeActivacion = useRef(null);
@@ -29,7 +28,7 @@ function App() {
   const refProgressBars = useRef(null);
   const refAlertsTable = useRef(null);
 
-  // --- 2. Funciones Handler (faltaban) ---
+  // --- MANEJADORES DE EVENTOS ---
   const handleDataProcessed = (data) => {
     setDashboardData(data);
   };
@@ -104,7 +103,7 @@ function App() {
   };
 
 
-  // --- 3. El JSX que ya tenías ---
+  // --- INTERFAZ DE USUARIO ---
   return (
     <div className="bg-[var(--color-fondo-pagina)] text-[var(--color-texto-principal)] min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
@@ -144,41 +143,36 @@ function App() {
             </div>
 
             <h2 className="text-2xl font-semibold -mb-4">Indicadores Clave</h2>
-            {/* --- MODIFICACIÓN AQUÍ --- */}
-            {/* Ahora pasamos 'totalInscritos' a cada KPICard */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <KPICard 
                 ref={refKpiTotal} 
                 title="Total Inscritos" 
                 value={dashboardData.totalInscritos} 
                 unit=" alumnos" 
-                totalInscritos={dashboardData.totalInscritos} // Se lo pasamos
+                totalInscritos={dashboardData.totalInscritos}
               />
               <KPICard 
                 ref={refKpiCantidadSinAvance} 
                 title="Alumnos sin Avance" 
                 value={dashboardData.cantidadSinAvance} 
                 unit=" alumnos" 
-                totalInscritos={dashboardData.totalInscritos} // Se lo pasamos
+                totalInscritos={dashboardData.totalInscritos}
               />
               <KPICard 
                 ref={refKpiBrecha} 
                 title="Brecha de Compromiso" 
                 value={dashboardData.brechaCompromiso} 
                 unit="%" 
-                totalInscritos={dashboardData.totalInscritos} // Se lo pasamos
+                totalInscritos={dashboardData.totalInscritos}
               />
               <KPICard 
                 ref={refKpiProyectada} 
                 title="Tasa Finalización Proyectada" 
                 value={dashboardData.tasaFinalizacionProyectada} 
                 unit="%" 
-                totalInscritos={dashboardData.totalInscritos} // Se lo pasamos
+                totalInscritos={dashboardData.totalInscritos}
               />
             </div>
-            {/* --- FIN MODIFICACIÓN --- */}
-
-
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div ref={refBarChart} className="bg-[var(--color-fondo-tarjeta)] p-6 rounded-xl shadow-lg lg:col-span-2">
                 <h2 className="text-xl font-semibold mb-4">Distribución de Avance (Total: {dashboardData.totalInscritos} Alumnos)</h2>
