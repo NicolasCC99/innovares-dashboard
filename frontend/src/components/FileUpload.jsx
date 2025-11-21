@@ -51,7 +51,14 @@ function FileUpload({ onDataProcessed }) {
     }
   };
 
-  // Usar variables CSS para los colores del texto
+  const handleClearData = () => {
+    setSelectedFile(null);
+    setMessage('');
+    setCurrentWeek(4);
+    setTotalWeeks(4);
+    onDataProcessed(null);
+  };
+
   const messageColorClass = message.startsWith('Error:') 
     ? 'text-red-400' 
     : message.startsWith('¡Éxito!') 
@@ -59,7 +66,6 @@ function FileUpload({ onDataProcessed }) {
     : 'text-[var(--color-texto-secundario)]';
 
   return (
-
     <div className="bg-gray-800 p-6 rounded-xl shadow-lg space-y-4">
       
       <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -77,38 +83,64 @@ function FileUpload({ onDataProcessed }) {
           disabled={isLoading}
           accept=".xlsx, .xls, .csv"
         />
-        <span className={`text-sm truncate ${messageColorClass}`}>
+        <span className={`text-sm truncate flex-1 ${messageColorClass}`}>
           {message || "Aún no se ha seleccionado ningún archivo."}
         </span>
       </div>
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-sm">
-
-          <label htmlFor="currentWeek" className="text-[var(--color-texto-secundario)]">Semana Actual:</label>
-          <input
-              id="currentWeek" type="number" value={currentWeek}
-              onChange={(e) => setCurrentWeek(parseInt(e.target.value) || 1)}
-              min="1" max={totalWeeks || 1} disabled={isLoading}
-              className="bg-gray-700 rounded p-1 w-16 text-center text-[var(--color-texto-principal)] disabled:opacity-50"
-          />
-          <span className="text-gray-500">de</span>
-          <input
-              id="totalWeeks" type="number" value={totalWeeks}
-              onChange={(e) => setTotalWeeks(parseInt(e.target.value) || 1)}
-              min="1" disabled={isLoading}
-              className="bg-gray-700 rounded p-1 w-16 text-center text-[var(--color-texto-principal)] disabled:opacity-50"
-            />
-          <span className="text-[var(--color-texto-secundario)]">Semanas</span>
+        <div className="flex items-center gap-3 text-sm flex-wrap">
+          <label htmlFor="currentWeek" className="text-[var(--color-texto-secundario)] whitespace-nowrap">Semana Actual:</label>
+          <select
+            id="currentWeek"
+            value={currentWeek}
+            onChange={(e) => setCurrentWeek(parseInt(e.target.value))}
+            disabled={isLoading}
+            className="bg-gray-700 rounded p-2 text-center text-[var(--color-texto-principal)] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          >
+            {Array.from({ length: totalWeeks }, (_, i) => i + 1).map((week) => (
+              <option key={week} value={week}>
+                {week}
+              </option>
+            ))}
+          </select>
+          <span className="text-gray-500 whitespace-nowrap">de</span>
+          <select
+            id="totalWeeks"
+            value={totalWeeks}
+            onChange={(e) => {
+              const num = parseInt(e.target.value);
+              setTotalWeeks(num);
+              if (currentWeek > num) setCurrentWeek(num);
+            }}
+            disabled={isLoading}
+            className="bg-gray-700 rounded p-2 text-center text-[var(--color-texto-principal)] disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+          >
+            {Array.from({ length: 52 }, (_, i) => i + 1).map((week) => (
+              <option key={week} value={week}>
+                {week}
+              </option>
+            ))}
+          </select>
+          <span className="text-[var(--color-texto-secundario)] whitespace-nowrap">Semanas</span>
         </div>
 
-        <button
-          onClick={handleUpload}
-          disabled={isLoading || !selectedFile}
-          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-        >
-          {isLoading ? 'Procesando...' : 'Procesar Archivo'}
-        </button>
+        <div className="flex gap-2 flex-wrap justify-end">
+          <button
+            onClick={handleUpload}
+            disabled={isLoading || !selectedFile}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            {isLoading ? 'Procesando...' : 'Procesar Archivo'}
+          </button>
+          <button
+            onClick={handleClearData}
+            disabled={isLoading || !selectedFile}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            Limpiar
+          </button>
+        </div>
       </div>
     </div>
   );

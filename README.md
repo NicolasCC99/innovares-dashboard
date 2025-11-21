@@ -112,13 +112,15 @@ cd ../frontend
 npm install
 ```
 
+---
+
 ## ▶️ Ejecución del Proyecto
 
 ### Iniciar Backend
 
 ```bash
 cd backend
-npm run dev
+node index.js
 # o
 npm start
 ```
@@ -133,6 +135,8 @@ npm run dev
 ```
 
 Frontend disponible en: `http://localhost:5173`
+
+---
 
 ## 📊 Preparación del Archivo Excel
 
@@ -169,6 +173,8 @@ Puede llamarse:
 
 ⚠️ **Nota:** Encabezados pueden estar en B2, C3 o filas/columnas desplazadas.
 
+---
+
 ## 📉 KPIs Calculados
 
 Se calculan **10 KPIs oficiales**:
@@ -193,22 +199,91 @@ Se calculan **10 KPIs oficiales**:
 
 10. **Tasa de Aprobación (%)** - Alumnos aprobados sobre el total inscrito.
 
+---
+
 ## 🚨 Sistema de Alertas Inteligentes
 
-### Última Semana
+El sistema genera alertas automáticas basadas en los KPIs calculados y en la semana actual del curso.  
+Estas alertas ayudan a identificar riesgos tempranos, priorizar acciones y dar seguimiento efectivo a los alumnos.
 
-- Pendientes de rendir Final
-- Avance bajo (≤ 25%)
-- Encuesta de satisfacción
+Las alertas vienen ordenadas por prioridad, desde Crítica hasta Informativa.
 
-### Semanas Previas
+### 🔴 Alertas en la Última Semana (Prioridad Muy Alta / Crítica)
 
-- Sin avance elevado
-- Bajo avance inicial
-- Baja rendición de pruebas
-- Cumplimiento insuficiente
+Activadas cuando: `currentWeek === totalWeeks`
 
-**Alertas ordenadas por prioridad:** Crítica → Informativa
+**Pendientes de rendir Prueba Final**
+
+- Si el porcentaje de alumnos que han rendido la Prueba Final es < 100%
+- Prioridad: 1 (Muy Alta)
+- Acción: Contactar urgentemente a los alumnos que aún no rinden
+- Objetivo: Evitar reprobar por no presentar evaluación
+
+**Alumnos con avance ≤ 25%**
+
+- Si existen alumnos en tramos 0% o 1–25%
+- Prioridad: 1 (Muy Alta)
+- Acción: Contacto inmediato para apoyo o refuerzo
+- Objetivo: Minimizar riesgo de abandono
+
+**Encuesta de Satisfacción pendiente**
+
+- Siempre se incluye en semana final
+- Prioridad: Informativa
+- Acción: Recordar completar encuesta
+- Objetivo: Cumplimiento administrativo / certificación
+
+### 🟠 Alertas en Semanas Intermedias
+
+**Alumnos Sin Avance**
+
+- Condición: porcentajeSinAvance ≥ 20%
+  - 20% o más → Prioridad 2 (Alta)
+  - Menos de 20% → Prioridad 3 (Media)
+- Objetivo: Activar participación temprana
+
+**Avance Bajo (1–25%)**
+
+- Condición: (Alumnos en tramo 1–25%) ≥ 15% del total
+- Prioridad: 3 (Media)
+- Acción: Detectar barreras iniciales
+
+**Baja rendición de Prueba Final**
+
+- Se mide aunque no sea semana final
+  - < 30% → 1 (Crítica)
+  - < 50% → 2 (Alta)
+- Objetivo: Evitar colapsos de última hora
+
+**Índice de Cumplimiento (Diagnóstica + Final)**
+
+- Condición:
+  - < 25% → 1 (Crítica)
+  - < 40% → 2 (Alta)
+- Objetivo: Garantizar que los alumnos completen ambas evaluaciones
+
+### 🟡 Orden de Prioridad
+
+El sistema ordena automáticamente todas las alertas usando esta jerarquía:
+
+1. Crítica
+2. Muy Alta
+3. Alta
+4. Media
+5. Informativa
+
+| Situación                         | Prioridad | Semana |
+| --------------------------------- | --------- | ------ |
+| Final rendida < 30%               | 1         | Todas  |
+| Cumplimiento < 25%                | 1         | Todas  |
+| Avance ≤ 25% en última semana     | 1         | Última |
+| Final no rendida en última semana | 1         | Última |
+| Sin avance ≥ 20%                  | 2–3       | Todas  |
+| Rendición Final < 50%             | 2         | Todas  |
+| Avance 1–25% ≥ 15%                | 3         | Todas  |
+| Encuesta de satisfacción          | Info      | Última |
+
+---
 
 ## 🧰 API REST
 
@@ -222,20 +297,26 @@ Se calculan **10 KPIs oficiales**:
 
 **Respuesta:** KPIs, distribución, evaluaciones y alertas.
 
+---
+
 ## 🎨 Tema y Exportación
 
-- Modo oscuro por defecto.
-- Exportación en modo claro.
+- Modo oscuro por defecto
+- Exportación en modo claro
 - Exportación ZIP con:
   - Gráficos PNG
   - Alertas
   - KPIs
 
+---
+
 ## ⚠️ Limitaciones
 
-- Cambios radicales en nombres de hojas o columnas pueden afectar el procesamiento.
-- Tamaño máximo de archivo recomendado: 50 MB.
-- Requiere Node 18+ para full compatibilidad.
+- Cambios radicales en nombres de hojas o columnas pueden afectar el procesamiento
+- Tamaño máximo de archivo recomendado: 50 MB
+- Requiere Node 18+ para full compatibilidad
+
+---
 
 ## 🔄 Flujo del Sistema
 
@@ -248,7 +329,9 @@ Se calculan **10 KPIs oficiales**:
 6. Usuario exporta ZIP con reportes
 ```
 
-🧪 Pruebas Realizadas
+---
+
+## 🧪 Pruebas Realizadas
 
 - Hospital del Profesor (4/4)
 - DEA (2/4)
@@ -259,6 +342,34 @@ Se calculan **10 KPIs oficiales**:
 - Notas con coma
 - Final vacía
 
-```
+---
 
-```
+## 🔐 Consideraciones de Seguridad y Vulnerabilidades
+
+El proyecto utiliza la librería `xlsx` para procesar archivos Excel.  
+Actualmente, `npm audit` reporta una vulnerabilidad conocida asociada a esta dependencia:
+
+- Prototype Pollution
+- Regular Expression Denial of Service (ReDoS)
+- No existe parche disponible al momento del desarrollo
+
+### ⚠️ Impacto real en el proyecto
+
+Para el uso actual dentro de Innovares, este riesgo es bajo, debido a que:
+
+- Los archivos Excel provienen de fuentes controladas (Moodle/OTEC), no de usuarios externos anónimos
+- El sistema no es público ni accesible a internet como API abierta
+- No se procesan archivos arbitrarios cargados por terceros
+- El backend solo funciona en entorno interno/local
+
+### 🧩 Recomendación a futuro
+
+Se recomienda:
+
+- Actualizar `xlsx` cuando la comunidad libere una versión corregida
+- Mantener `npm audit` como herramienta de monitoreo en instalaciones futuras
+
+### ✔️ Conclusión
+
+La vulnerabilidad no afecta el funcionamiento del sistema y, en el contexto de uso interno del proyecto, su impacto es mínimo.  
+Aun así, se deja documentada para asegurar transparencia y buenas prácticas de seguridad.
