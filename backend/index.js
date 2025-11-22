@@ -325,15 +325,105 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     emailsDiagnostica.forEach(e => { if (emailsFinal.has(e)) ambas++; });
     const indiceCumplimiento = totalInscritos > 0 ? ((ambas / totalInscritos) * 100).toFixed(1) : 0;
 
-    // Alertas (Lógica simplificada para el ejemplo)
+    // Alertas Inteligentes
     const alertas = [];
-    if (cantidadSinAvance > 0) {
+    const isLastWeek = currentWeek === totalWeeks;
+
+    // 🔴 ALERTAS ÚLTIMA SEMANA
+    if (isLastWeek) {
+      if (pctFinal < 100) {
         alertas.push({
-            priority: '2 (Alta)',
-            action: `Contactar a ${cantidadSinAvance} alumnos sin avance.`,
-            objective: 'Activar participación.'
+          priority: '1 (Crítica)',
+          action: `${100 - pctFinal}% de alumnos aún no rinden la Prueba Final.`,
+          objective: 'Contacto urgente para evitar reprobar por no presentar.'
         });
+      }
+      
+      if (tramos['0%'] + tramos['1-25%'] > 0) {
+        alertas.push({
+          priority: '1 (Crítica)',
+          action: `${tramos['0%'] + tramos['1-25%']} alumnos con avance ≤ 25%.`,
+          objective: 'Contacto inmediato para apoyo o refuerzo.'
+        });
+      }
+
+      alertas.push({
+        priority: 'Informativa',
+        action: 'Recordar completar Encuesta de Satisfacción.',
+        objective: 'Cumplimiento administrativo.'
+      });
     }
+
+    // 🟠 ALERTAS SEMANAS INTERMEDIAS
+    else {
+      // Alumnos Sin Avance
+      const pctSinAvanceNum = parseFloat(porcentajeSinAvance);
+      if (pctSinAvanceNum >= 20) {
+        alertas.push({
+          priority: '2 (Alta)',
+          action: `${cantidadSinAvance} alumnos sin avance (${porcentajeSinAvance}%).`,
+          objective: 'Activar participación temprana.'
+        });
+      } else if (pctSinAvanceNum > 0) {
+        alertas.push({
+          priority: '3 (Media)',
+          action: `${cantidadSinAvance} alumnos sin avance (${porcentajeSinAvance}%).`,
+          objective: 'Monitorear participación.'
+        });
+      }
+
+      // Avance Bajo
+      const pctBajo = totalInscritos > 0 ? ((tramos['1-25%'] / totalInscritos) * 100).toFixed(1) : 0;
+      if (pctBajo >= 15) {
+        alertas.push({
+          priority: '3 (Media)',
+          action: `${tramos['1-25%']} alumnos con avance 1–25% (${pctBajo}%).`,
+          objective: 'Detectar barreras iniciales.'
+        });
+      }
+
+      // Rendición Final
+      const pctFinalNum = parseFloat(pctFinal);
+      if (pctFinalNum < 30) {
+        alertas.push({
+          priority: '1 (Crítica)',
+          action: `Solo ${pctFinal}% de alumnos ha rendido Prueba Final.`,
+          objective: 'Evitar colapso de última hora.'
+        });
+      } else if (pctFinalNum < 50) {
+        alertas.push({
+          priority: '2 (Alta)',
+          action: `Solo ${pctFinal}% de alumnos ha rendido Prueba Final.`,
+          objective: 'Anticipar pendientes.'
+        });
+      }
+
+      // Cumplimiento
+      const indiceCumplimientoNum = parseFloat(indiceCumplimiento);
+      if (indiceCumplimientoNum < 25) {
+        alertas.push({
+          priority: '1 (Crítica)',
+          action: `Solo ${indiceCumplimiento}% cumplió ambas evaluaciones.`,
+          objective: 'Garantizar completitud del ciclo evaluativo.'
+        });
+      } else if (indiceCumplimientoNum < 40) {
+        alertas.push({
+          priority: '2 (Alta)',
+          action: `Solo ${indiceCumplimiento}% cumplió ambas evaluaciones.`,
+          objective: 'Reforzar importancia de ambas pruebas.'
+        });
+      }
+    }
+
+    // Ordenar por prioridad
+    const priorityOrder = {
+      '1 (Crítica)': 0,
+      '1 (Muy Alta)': 1,
+      '2 (Alta)': 2,
+      '3 (Media)': 3,
+      'Informativa': 4
+    };
+    alertas.sort((a, b) => (priorityOrder[a.priority] || 999) - (priorityOrder[b.priority] || 999));
 
     res.json({
       avancePromedio,

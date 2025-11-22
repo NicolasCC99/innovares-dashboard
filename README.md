@@ -177,27 +177,90 @@ Puede llamarse:
 
 ## 📉 KPIs Calculados
 
-Se calculan **10 KPIs oficiales**:
+Se calculan **10 KPIs oficiales** que proporcionan visibilidad completa del desempeño del curso:
 
-1. **Avance Promedio (%)** - Promedio del progreso de todos los alumnos.
+### 1. **Avance Promedio (%)**
 
-2. **Alumnos Sin Avance** - Cantidad con avance = 0%.
+- **Qué es:** Promedio del progreso de todos los alumnos inscritos en el curso.
+- **Cálculo:** (Suma de avances individuales) / Total inscritos × 100
+- **Interpretación:**
+  - ≥80% → Curso bien encaminado
+  - 40–80% → Avance parcial, normal en semanas intermedias
+  - <40% → Curso atrasado, requiere seguimiento
 
-3. **Porcentaje Sin Avance** - (cantidadSinAvance / totalInscritos) × 100
+### 2. **Alumnos Sin Avance (n)**
 
-4. **Distribución por Tramos** - 0%, 1–25%, 26–50%, 51–75%, 76–99%, 100%.
+- **Qué es:** Cantidad absoluta de alumnos con avance = 0%.
+- **Interpretación:**
+  - > 20% → Riesgo de deserción temprana
+  - > 40% → Se genera alerta de prioridad alta
 
-5. **Rendición de Pruebas (%)** - Diagnóstica y Final.
+### 3. **Porcentaje Sin Avance (%)**
 
-6. **Tasa de Activación (%)** - Alumnos con avance ≥ 1%.
+- **Qué es:** Porcentaje de alumnos que no han iniciado el curso.
+- **Cálculo:** (Alumnos con 0% avance / Total inscritos) × 100
+- **Interpretación:**
+  - ≥20% → Indica falta de activación inicial
+  - ≥50% → Curso en riesgo crítico (especialmente después semana 2)
 
-7. **Brecha de Compromiso** - 100 − avancePromedio
+### 4. **Distribución por Tramos (%)**
 
-8. **Tasa de Finalización Proyectada** - min(100, (avancePromedioActual / semanaActual) × totalSemanas)
+- **Qué es:** Agrupación de alumnos en 6 categorías según avance: 0%, 1–25%, 26–50%, 51–75%, 76–99%, 100%.
+- **Interpretación:** Permite identificar dónde está concentrado el progreso y detectar cuellos de botella (ej: muchos alumnos estancados en 1–25%).
 
-9. **Índice de Cumplimiento (%)** - Diagnóstica + Final.
+### 5. **Rendición de Pruebas (%)**
 
-10. **Tasa de Aprobación (%)** - Alumnos aprobados sobre el total inscrito.
+- **Qué es:** Porcentaje de alumnos que rindieron Prueba Diagnóstica y Prueba Final.
+- **Cálculo:** (Alumnos que rindieron / Total inscritos) × 100
+- **Interpretación:**
+  - <30% → Alerta crítica
+  - 30–50% → Alerta alta
+  - ≥70% → Rendición adecuada
+
+### 6. **Tasa de Activación (%)**
+
+- **Qué es:** Porcentaje de alumnos que han avanzado al menos 1% en el curso.
+- **Cálculo:** ((Total inscritos - Sin avance) / Total inscritos) × 100
+- **Interpretación:**
+  - ≥80% → Curso activado correctamente
+  - 50–80% → Activación parcial
+  - <50% → Riesgo alto de abandono
+
+### 7. **Brecha de Compromiso (%)**
+
+- **Qué es:** Diferencia entre 100% y el avance promedio, representa el espacio de mejora.
+- **Cálculo:** 100 − Avance Promedio
+- **Interpretación:**
+  - <40% → Buena ejecución
+  - 40–70% → Curso moderadamente atrasado
+  - ≥70% → Curso con bajo compromiso global
+
+### 8. **Tasa de Finalización Proyectada (%)**
+
+- **Qué es:** Proyección lineal del avance final basada en la semana actual y velocidad de progreso.
+- **Cálculo:** min(100, (Avance Promedio / Semana Actual) × Total Semanas)
+- **Interpretación:**
+  - <50% → Riesgo de no alcanzar finalización
+  - 50–80% → Se requiere refuerzo intensivo
+  - ≥80% → Finalización probable
+
+### 9. **Índice de Cumplimiento (%)**
+
+- **Qué es:** Porcentaje de alumnos que han rendido ambas evaluaciones (Diagnóstica Y Final).
+- **Cálculo:** (Alumnos que rindieron ambas / Total inscritos) × 100
+- **Interpretación:**
+  - <25% → Alerta crítica (ciclo evaluativo incompleto)
+  - 25–40% → Alerta alta
+  - ≥40% → Cumplimiento aceptable
+
+### 10. **Tasa de Aprobación (%)**
+
+- **Qué es:** Porcentaje de alumnos que aprobaron la Prueba Final (calificación ≥ 4.0).
+- **Cálculo:** (Alumnos aprobados / Total inscritos) × 100
+- **Interpretación:**
+  - <60% → Requiere análisis de dificultad
+  - 60–80% → Rendimiento normal
+  - ≥80% → Excelente desempeño
 
 ---
 
