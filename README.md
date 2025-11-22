@@ -120,7 +120,7 @@ npm install
 
 ```bash
 cd backend
-node index.js
+npm run dev
 # o
 npm start
 ```
