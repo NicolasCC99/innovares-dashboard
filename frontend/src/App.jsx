@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import JSZip from 'jszip';
 
-// --- IMPORTACIÓN DE COMPONENTES ---
+// Importación de componentes
 import KPICard from './components/KPICard';
 import GaugeChartCard from './components/GaugeChartCard';
 import BarChartComponent from './components/BarChartComponent';
@@ -14,7 +14,7 @@ function App() {
   const [dashboardData, setDashboardData] = useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  // --- REFERENCIAS A ELEMENTOS PARA EXPORTACIÓN ---
+  // Referencias para exportación a imagen
   const refGaugeAvance = useRef(null);
   const refGaugeAprobacion = useRef(null);
   const refGaugeActivacion = useRef(null);
@@ -28,7 +28,7 @@ function App() {
   const refProgressBars = useRef(null);
   const refAlertsTable = useRef(null);
 
-  // --- MANEJADORES DE EVENTOS ---
+  // Manejadores de eventos
   const handleDataProcessed = (data) => {
     setDashboardData(data);
   };
@@ -44,22 +44,18 @@ function App() {
           return;
         }
         const canvas = await html2canvas(element, {
-          backgroundColor: null, // Fondo transparente
+          backgroundColor: null,
           scale: 2,
-          // Lógica 'onclone' para cambiar texto a negro en la descarga
           onclone: (clonedDoc) => {
-            // Encuentra el elemento raíz del clon y añade la clase
-            // Asegúrate que los refs apunten a elementos que contengan a los que deben cambiar
-             const rootElement = clonedDoc.querySelector('.bg-\\[var\\(--color-fondo-tarjeta\\)\\]') || clonedDoc.querySelector('div');
-             if (rootElement) {
-                rootElement.classList.add('export-blanco');
-             } else {
-                // Fallback si no encuentra el div principal, aplica al documento
-                clonedDoc.documentElement.classList.add('export-blanco');
-             }
-             
-             // Aplicamos la clase a todos los hijos por si acaso
-             clonedDoc.querySelectorAll('*').forEach(el => el.classList.add('export-blanco'));
+            // Ajustes de estilo para la exportación (modo claro)
+            const rootElement = clonedDoc.querySelector('.bg-\\[var\\(--color-fondo-tarjeta\\)\\]') || clonedDoc.querySelector('div');
+            if (rootElement) {
+              rootElement.classList.add('export-blanco');
+            } else {
+              clonedDoc.documentElement.classList.add('export-blanco');
+            }
+
+            clonedDoc.querySelectorAll('*').forEach(el => el.classList.add('export-blanco'));
           }
         });
         const imageData = canvas.toDataURL('image/png').split(';base64,')[1];
@@ -103,27 +99,27 @@ function App() {
   };
 
 
-  // --- INTERFAZ DE USUARIO ---
+  // Renderizado de la interfaz
   return (
     <div className="bg-[var(--color-fondo-pagina)] text-[var(--color-texto-principal)] min-h-screen p-8">
       <div className="max-w-7xl mx-auto">
-        
+
         <header className="mb-8 pb-6 border-b border-[var(--color-borde)]">
-           <div className="flex justify-between items-center flex-wrap gap-4">
-             <div>
-               <h1 className="text-3xl font-bold">Dashboard de Avance de Cursos</h1>
-               <p className="text-[var(--color-texto-secundario)]">Reporte para Empresas - Innovares</p>
-             </div>
-             {dashboardData && (
-               <button
-                 onClick={handleDownloadZip} 
-                 disabled={isDownloading}
-                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-in-out hover:scale-105 active:scale-95 hover:shadow-lg"
-               >
-                 {isDownloading ? 'Generando ZIP...' : 'Descargar Paquete (.zip)'}
-               </button>
-             )}
-           </div>
+          <div className="flex justify-between items-center flex-wrap gap-4">
+            <div>
+              <h1 className="text-3xl font-bold">Dashboard de Avance de Cursos</h1>
+              <p className="text-[var(--color-texto-secundario)]">Reporte para Empresas - Innovares</p>
+            </div>
+            {dashboardData && (
+              <button
+                onClick={handleDownloadZip}
+                disabled={isDownloading}
+                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-in-out hover:scale-105 active:scale-95 hover:shadow-lg"
+              >
+                {isDownloading ? 'Generando ZIP...' : 'Descargar Paquete (.zip)'}
+              </button>
+            )}
+          </div>
         </header>
 
         <div className="mb-8">
@@ -132,7 +128,7 @@ function App() {
 
         {dashboardData ? (
           <main className="space-y-8">
-            
+
             <h2 className="text-2xl font-semibold -mb-4">Métricas de Progreso</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
               <GaugeChartCard ref={refGaugeAvance} title="Avance Promedio" value={dashboardData.avancePromedio} />
@@ -144,32 +140,32 @@ function App() {
 
             <h2 className="text-2xl font-semibold -mb-4">Indicadores Clave</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <KPICard 
-                ref={refKpiTotal} 
-                title="Total Inscritos" 
-                value={dashboardData.totalInscritos} 
-                unit=" alumnos" 
+              <KPICard
+                ref={refKpiTotal}
+                title="Total Inscritos"
+                value={dashboardData.totalInscritos}
+                unit=" alumnos"
                 totalInscritos={dashboardData.totalInscritos}
               />
-              <KPICard 
-                ref={refKpiCantidadSinAvance} 
-                title="Alumnos sin Avance" 
-                value={dashboardData.cantidadSinAvance} 
-                unit=" alumnos" 
+              <KPICard
+                ref={refKpiCantidadSinAvance}
+                title="Alumnos sin Avance"
+                value={dashboardData.cantidadSinAvance}
+                unit=" alumnos"
                 totalInscritos={dashboardData.totalInscritos}
               />
-              <KPICard 
-                ref={refKpiBrecha} 
-                title="Brecha de Compromiso" 
-                value={dashboardData.brechaCompromiso} 
-                unit="%" 
+              <KPICard
+                ref={refKpiBrecha}
+                title="Brecha de Compromiso"
+                value={dashboardData.brechaCompromiso}
+                unit="%"
                 totalInscritos={dashboardData.totalInscritos}
               />
-              <KPICard 
-                ref={refKpiProyectada} 
-                title="Tasa Finalización Proyectada" 
-                value={dashboardData.tasaFinalizacionProyectada} 
-                unit="%" 
+              <KPICard
+                ref={refKpiProyectada}
+                title="Tasa Finalización Proyectada"
+                value={dashboardData.tasaFinalizacionProyectada}
+                unit="%"
                 totalInscritos={dashboardData.totalInscritos}
               />
             </div>
