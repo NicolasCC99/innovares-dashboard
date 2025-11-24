@@ -60,8 +60,8 @@ innovares-dashboard/
 
 ### 📌 Backend
 
-- Node.js **v18 o superior**
-- npm **v9 o superior**
+- Node.js **v18 o superior** → [Descargar Node.js](https://nodejs.org/)
+- npm **v9 o superior** (incluido con Node.js)
 - Dependencias:
   - `express`
   - `multer`
@@ -92,6 +92,8 @@ innovares-dashboard/
 ## 📦 Instalación
 
 ### 1. Clonar el repositorio
+
+**Requisito:** Git → [Descargar Git](https://git-scm.com/downloads)
 
 ```bash
 git clone <url-del-repositorio>
